@@ -14,8 +14,9 @@
 
 void fork_f(char *comm, char *argv[]);
 void download_zip();
+void make_folder();
+void move_file();
 void extract_zip(char *dirPath);
-void rename_folder();
 void delete_zip();
 void zip_folder();
 void delete_folder();
@@ -46,10 +47,12 @@ int main()
 
             if ((now_s >= b_ultah) && (flag1 == 1)) {
                 flag1 = 0;
+                make_folder();
                 download_zip();
                 extract_zip(dirPath);
-                rename_folder();
-                delete_zip();
+                move_file("/home/mufis/PS/Pratikum_02/soal1/FOTO/", "/home/mufis/PS/Pratikum_02/soal1/Pyoto/");
+                move_file("/home/mufis/PS/Pratikum_02/soal1/MUSIK/", "/home/mufis/PS/Pratikum_02/soal1/Musyik/");
+                move_file("/home/mufis/PS/Pratikum_02/soal1/FILM/", "/home/mufis/PS/Pratikum_02/soal1/Fylm/");
             }
 
             if ((now_s >= ultah) && (flag2 == 1)) {
@@ -116,6 +119,14 @@ void fork_f(char *comm, char *argv[]){
     return;
 }
 
+void make_folder() {
+
+    char *argv[] = {"mkdir", "Pyoto", "Musyik", "Fylm", NULL};
+    fork_f("/bin/mkdir", argv);
+
+    return;
+}
+
 void download_zip() {
 
     char *argv[] = {"wget", "-q", "--no-check-certificate", "https://drive.google.com/u/0/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip", NULL};
@@ -154,30 +165,31 @@ void extract_zip(char *dirPath) {
     return;
 }
 
-void rename_folder() {
+void move_file(char *dirPath, char *destPath) {
 
-    char *argv[] = {"mv", "FOTO", "Pyoto", NULL};
-    fork_f("/bin/mv", argv);
-    
-    char *argv2[] = {"mv", "MUSIK", "Musyik", NULL};
-    fork_f("/bin/mv", argv2);
-    
-    char *argv3[] = {"mv", "FILM", "Fylm", NULL};
-    fork_f("/bin/mv", argv3);
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(dirPath);
+
+    while ((dir = readdir(d)) != NULL)
+    {
+        char tmp[500];
+        strcpy(tmp, dirPath);
+        strcat(tmp, dir->d_name);
+
+        char *argv[] = {"mv", tmp, destPath, NULL};
+        fork_f("/bin/mv", argv);
+    }
+
+    closedir(d);
+
     return;
 }
 
-void delete_zip() {
-
-    char *argv[] = {"rm", "-r", "Foto_for_Stevany.zip", "Musik_for_Stevany.zip", "Film_for_Stevany.zip", NULL};
-    fork_f("/bin/rm", argv);
- 
-    return;
-}
 
 void zip_folder() {
 
-    char *argv[] = {"zip", "-r", "Lopyu_Stevany.zip", "Pyoto", "Musyik", "Fylm", NULL};
+    char *argv[] = {"zip", "-r", "Lopyu_Stevany.zip", "Pyoto", "Musyik", "Fylm", "FOTO", "MUSIK", "FILM", NULL};
     fork_f("/bin/zip", argv);
  
     return;
@@ -185,7 +197,7 @@ void zip_folder() {
 
 void delete_folder() {
 
-    char *argv[] = {"rm", "-r", "Pyoto", "Musyik", "Fylm", NULL};
+    char *argv[] = {"rm", "-r", "Pyoto", "Musyik", "Fylm", "FOTO", "MUSIK", "FILM", NULL};
     fork_f("/bin/rm", argv);
  
     return;
