@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="31">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"auto win hack"</Description>
+      <LastState Value="" RealAddress="FFFFFFFF"/>
+      <GroupHeader>1</GroupHeader>
+      <Address>FFFFFFFF</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"anti ban"</Description>
+      <LastState Value="" RealAddress="FFFFFFFF"/>
+      <GroupHeader>1</GroupHeader>
+      <Address>FFFFFFFF</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"jangan dicoba beneran"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <Address/>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>
