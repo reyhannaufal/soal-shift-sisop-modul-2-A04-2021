@@ -1,0 +1,49 @@
+execl("/bin/wget", "http://anyadress.com/file");
+
+gcc coba.c -o coba
+
+./coba
+
+
+Foto :
+https://drive.google.com/file/d/1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD/view
+
+
+Musik_for_Stevany.zip
+
+Film_for_Stevany.zip
+
+Foto_for_Stevany.zip
+
+
+
+Wget --no-check-certificate "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download" -O Musik_for_Stevany.zip;
+
+execl("/bin/wget", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download");
+
+char *argv[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", -O", "Musik_for_Stevany.zip", NULL};
+    execv("/bin/wget", argv);
+
+
+https://drive.google.com/file/d/1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J/view
+
+
+https://drive.google.com/file/d/1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp/view
+
+
+	char *argv[] = {"wget", "--no-check-certificate", "https://drive.google.com/u/0/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip",
+
+
+	"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-O", "Musik_for_Stevany.zip",
+
+
+	"wget", "--no-check-certificate", "https://drive.google.com/u/0/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-O", "Film_for_Stevany.zip", NULL};
+	execv("/bin/wget", argv);
+
+
+unzip *.zip
+
+/bin/unzip
+
+zip Koleksi.zip */
+/bin/zip
