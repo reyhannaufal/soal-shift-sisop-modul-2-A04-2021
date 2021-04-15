@@ -1,1 +1,12 @@
 Unzip multiple zip file = https://www.cyberciti.biz/faq/linux-unix-shell-unzipping-many-zip-files/
+
+Change working dir = https://linux.die.net/man/2/chdir
+
+ganti waktu dibios vbox = https://winaero.com/how-to-set-the-bios-date-in-virtualbox/
+
+date time in c: https://stackoverflow.com/questions/1442116/how-to-get-the-date-and-time-values-in-a-c-program#:~:text=You%20can%20get%20both%20the,specific%20to%20your%20time%20zone.
+
+
+printf("now: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+
+sudo date --set="2021-04-09 16:21:59"
