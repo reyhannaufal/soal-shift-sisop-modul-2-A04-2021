@@ -3,3 +3,7 @@ https://github.com/arsitektur-jaringan-komputer/Modul-Sisop/tree/master/2021/Mod
 https://pastebin.com/87MsangQ
 
 https://stackoverflow.com/questions/44617772/changing-work-directory-to-location-of-program-in-c-on-linux
+
+#include <unistd.h>
+
+int chdir(const char *path)
