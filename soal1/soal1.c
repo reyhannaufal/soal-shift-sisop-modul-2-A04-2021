@@ -19,17 +19,15 @@ void rename_folder();
 void delete_zip();
 void zip_folder();
 void delete_folder();
-void makeDaemon(pid_t *pid, pid_t *sid);
+void make_daemon(pid_t *pid, pid_t *sid, char *dirPath);
 
 
 int main()
 {
-    pid_t pid, sid;
-    makeDaemon(&pid, &sid);
     char *dirPath = "/home/mufis/PS/Pratikum_02/soal1/";
-
-    chdir(dirPath);
-
+    pid_t pid, sid;
+    make_daemon(&pid, &sid, dirPath);
+    
     int b_ultah = 58920; //jam 16:22 menit
     int b_ultahl = 59040; // jam 16:24 (buat limit ajah)
     int ultah = 80520; //jam 22:22 menit
@@ -66,7 +64,7 @@ int main()
     return 0;
 }
 
-void makeDaemon(pid_t *pid, pid_t *sid)
+void make_daemon(pid_t *pid, pid_t *sid, char *dirPath)
 {
     *pid = fork();
  
@@ -85,7 +83,7 @@ void makeDaemon(pid_t *pid, pid_t *sid)
         exit(EXIT_FAILURE);
     }
  
-    if ((chdir("/")) < 0) {
+    if ((chdir(dirPath)) < 0) {
         exit(EXIT_FAILURE);
     }
  
@@ -113,19 +111,20 @@ void fork_f(char *comm, char *argv[]){
     } else {
         // this is parent
         while ((wait(&status)) > 0);
+        return;
     }
     return;
 }
 
 void download_zip() {
 
-    char *argv[] = {"wget", "--no-check-certificate", "https://drive.google.com/u/0/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", NULL};
+    char *argv[] = {"wget", "-q", "--no-check-certificate", "https://drive.google.com/u/0/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip", NULL};
     fork_f("/bin/wget", argv);
     
-    char *argv2[] = {"wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", NULL};
+    char *argv2[] = {"wget", "-q", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-O", "Musik_for_Stevany.zip", NULL};
     fork_f("/bin/wget", argv2);
     
-    char *argv3[] = {"wget", "--no-check-certificate", "https://drive.google.com/u/0/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", NULL};
+    char *argv3[] = {"wget", "-q", "--no-check-certificate", "https://drive.google.com/u/0/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-O", "Film_for_Stevany.zip", NULL};
     fork_f("/bin/wget", argv3);
     
     return;
@@ -135,22 +134,22 @@ void extract_zip(char *dirPath) {
 
     char tmp[500];
     strcpy(tmp, dirPath);
-    strcat(tmp, "uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download");
+    strcat(tmp, "Foto_for_Stevany.zip");
 
     char *argv[] = {"unzip", tmp, "-d", dirPath, NULL};
     fork_f("/bin/unzip", argv);
 
     strcpy(tmp, dirPath);
-    strcat(tmp, "uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download");
+    strcat(tmp, "Musik_for_Stevany.zip");
 
     char *argv2[] = {"unzip", tmp, "-d", dirPath, NULL};
     fork_f("/bin/unzip", argv2);
 
     strcpy(tmp, dirPath);
-    strcat(tmp, "uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download");
+    strcat(tmp, "Film_for_Stevany.zip");
 
     char *argv3[] = {"unzip", tmp, "-d", dirPath, NULL};
-    fork_f("/bin/unzip", argv3);
+    fork_f("/bin/unzip", argv3);   
     
     return;
 }
@@ -170,7 +169,7 @@ void rename_folder() {
 
 void delete_zip() {
 
-    char *argv[] = {"rm", "-r", "uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", NULL};
+    char *argv[] = {"rm", "-r", "Foto_for_Stevany.zip", "Musik_for_Stevany.zip", "Film_for_Stevany.zip", NULL};
     fork_f("/bin/rm", argv);
  
     return;
