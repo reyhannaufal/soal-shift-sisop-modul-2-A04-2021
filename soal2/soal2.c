@@ -15,46 +15,7 @@
 void fork_f(char *comm, char *argv[]);
 char *str_toDir(char *ipt);
 char *animalName(char *str);
-char *renameAnimal(char *str, char *folder)
-{
-    char *name = animalName(str);
-    char *ptr;
-    while (ptr = strtok_r(name, "_", &name))
-    {
-
-        char *ptr2;
-        int j = 0;
-
-        char jenis[20], name[20], umur[10];
-        char *temp = ptr;
-
-        while (ptr2 = strtok_r(temp, ";", &temp))
-        {
-            if (j == 0)
-            {
-                strcpy(jenis, ptr2);
-            }
-
-            if (j == 1)
-            {
-                strcpy(name, ptr2);
-            }
-
-            if (j == 2)
-            {
-                strcpy(umur, ptr2);
-            }
-
-            j++;
-        }
-
-        char *argv[] = {"mv", str, name, NULL};
-        fork_f("/usr/bin/mv", argv);
-
-        char *argv2[] = {"mv", name, folder, NULL};
-        fork_f("/usr/bin/mv", argv2);
-    }
-}
+char *renameAnimal(char *str, char *folder);
 
 int main()
 {
@@ -226,4 +187,58 @@ char *animalName(char *str)
     }
     a[i] = '\0';
     return a;
+}
+
+char *renameAnimal(char *str, char *folder)
+{
+    char *name = animalName(str);
+    char *ptr;
+    while (ptr = strtok_r(name, "_", &name))
+    {
+
+        char *ptr2;
+        int j = 0;
+
+        char jenis[20], name[20], umur[10];
+        char *temp = ptr;
+
+        while (ptr2 = strtok_r(temp, ";", &temp))
+        {
+            if (j == 0)
+            {
+                strcpy(jenis, ptr2);
+            }
+
+            if (j == 1)
+            {
+                strcpy(name, ptr2);
+            }
+
+            if (j == 2)
+            {
+                strcpy(umur, ptr2);
+            }
+
+            j++;
+        }
+
+        char *argv[] = {"mv", str, name, NULL};
+        fork_f("/usr/bin/mv", argv);
+
+        char *argv2[] = {"mv", name, folder, NULL};
+        fork_f("/usr/bin/mv", argv2);
+
+        FILE *fp;
+        fp = fopen("keterangan.txt", "w");
+        char keterangan[200] = "nama : ";
+        strcat(keterangan, name);
+        strcat(keterangan, "\numur  : ");
+        strcat(keterangan, umur);
+        strcat(keterangan, " tahun\n\n");
+        fputs(keterangan, fp);
+        fclose(fp);
+
+        char *argv3[] = {"mv", "keterangan.txt", folder, NULL};
+        fork_f("/usr/bin/mv", argv3);
+    }
 }
