@@ -12,33 +12,11 @@
 
 void make();
 void placeholdir(time_t time);
-void download (char *tang,int par);
+void download (char *tang);
 void caesar5(char *succ);
 void zipfolder(char *tang);
-
-void _fork_(char *cmd, char *arg[])
-{
-	pid_t id;
-	int status;
-//	printf("\n===Test #1===\n");
-	id = fork();
-//	printf("\n===Test #2===\n");
-	if(id<0)
-	{
-		exit(EXIT_FAILURE);
-//		printf("booreal\n");
-	}
-	if(id==0)
-	{
-//		printf("fooreal\n");
-		execv(cmd,arg);
-		printf("kalo ketulis aneh");
-	}
-	else{
-		while(wait(&status)>0){
-		}
-	}
-}
+void text(char* path);
+void removefolder(char *tang);
 
 void fork_(char *cmd, char *arg[])
 {
@@ -56,7 +34,7 @@ void fork_(char *cmd, char *arg[])
 	{
 //		printf("fooreal\n");
 		execv(cmd,arg);
-		printf("kalo ketulis aneh");
+//		printf("kalo ketulis aneh");
 	}
 //	else{
 //		while(wait(&status)>0){
@@ -65,26 +43,22 @@ void fork_(char *cmd, char *arg[])
 }
 
 
+
 void caesar5(char* succ){
-	int i;
-	for(i=0;i<(sizeof(succ));i++){
+	int i=0;
+	while (succ[i] != NULL){
 		if (((succ[i] >= 'a') && (succ[i]<= 'z'-5))||((succ[i] >= 'A')&&(succ[i]<= 'z'-5))){
 			succ[i] =succ[i] + 5;
 		}
 		else if (((succ[i] <= 'z') && (succ[i] > 'z'-5))||((succ[i] <= 'Z')&&(succ[i]> 'z'-5))){
 			succ[i] = succ[i] - 21;
 		}
+		i++;
 	}
 }
 
 
-void createdir(char *date){
-	char *arg1[] = {"cp", "-r" ,"/home/san/Downloads",date,NULL};
-	fork_("/bin/cp", arg1);
-}
-
-
-void download (char *tang, int par){
+void download (char *tang){
 	
 	time_t waktu;
 	time(&waktu);
@@ -96,12 +70,12 @@ void download (char *tang, int par){
 	asprintf(&date,"%d-%02d-%02d_%02d:%02d:%02d" , tim.tm_year +1900, tim.tm_mon +1, tim.tm_mday, tim.tm_hour, tim.tm_min, tim.tm_sec);
 	asprintf(&date2,"%s/%s.jpeg", tang,date);
 	char *arg[]={"wget","--no-check-certificate","-O",date2,pix,NULL};
-	if(par == 0){
+//	if(par == 0){
 		fork_("/usr/bin/wget",arg);
-	}
-	if(par == 1){
-		_fork_("usr/bin/wget",arg);
-	}
+//	}
+//	if(par == 1){
+//		_fork_("usr/bin/wget",arg);
+//	}
 }
 
 void placeholdir(time_t waktu){
@@ -113,10 +87,13 @@ void placeholdir(time_t waktu){
 	int i;
 	for(i=0;i<10;i++){
 	sleep(2);
-	download(date,0);
+	download(date);
 	}
-	sleep(5);
+	sleep(2);
+	text(date);
 	zipfolder(date);
+	sleep(5);
+	removefolder(date);
 	
 }
 
@@ -138,11 +115,32 @@ void make(){
 
 }
 
+void text(char* path){
+
+	FILE *tex;
+	char *namafile;
+	asprintf(&namafile,"%s/status.txt",path);
+	char* msg;
+	asprintf(&msg,"Download Success");
+	tex = fopen(namafile, "w");
+	caesar5(msg);
+	fputs(msg,tex);
+	fclose(tex);
+}
+
+
+
 void zipfolder(char *tang){
 	char* zipname;
 	asprintf(&zipname,"%s.zip",tang);
 	char* arg[] = {"zip","-r",zipname,tang,NULL};
 	fork_("/usr/bin/zip",arg);
+	
+}
+
+void removefolder(char *tang){
+	char* arg[]={"rm","-rf",tang,NULL};
+	fork_("/bin/rm",arg);
 }
 
 int main(int argc, char *argv[])
@@ -153,6 +151,7 @@ int main(int argc, char *argv[])
 	sleep(1);
 	make();
 	printf("make2\n");
+
 
 	return 0;
 }
