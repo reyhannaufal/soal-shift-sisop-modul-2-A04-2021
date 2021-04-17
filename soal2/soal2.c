@@ -13,9 +13,8 @@
 #include <stdlib.h>
 
 void fork_f(char *comm, char *argv[]);
-char *str_toDir(char *ipt);
 char *animalName(char *str);
-char *renameAnimal(char *str, char *folder);
+char *processAnimal(char *str, char *folder);
 
 int main()
 {
@@ -38,72 +37,72 @@ int main()
     {
         if (strstr(dir->d_name, "betta;"))
         {
-            renameAnimal(dir->d_name, "betta");
+            processAnimal(dir->d_name, "betta");
         }
 
         if (strstr(dir->d_name, "cat;"))
         {
-            renameAnimal(dir->d_name, "cat");
+            processAnimal(dir->d_name, "cat");
         }
         if (strstr(dir->d_name, "chicken;"))
         {
-            renameAnimal(dir->d_name, "chicken");
+            processAnimal(dir->d_name, "chicken");
         }
         if (strstr(dir->d_name, "dog;"))
         {
-            renameAnimal(dir->d_name, "dog");
+            processAnimal(dir->d_name, "dog");
         }
         if (strstr(dir->d_name, "frog;"))
         {
-            renameAnimal(dir->d_name, "frog");
+            processAnimal(dir->d_name, "frog");
         }
         if (strstr(dir->d_name, "guinea pig;"))
         {
-            renameAnimal(dir->d_name, "guinea pig");
+            processAnimal(dir->d_name, "guinea pig");
         }
         if (strstr(dir->d_name, "hamster;"))
         {
-            renameAnimal(dir->d_name, "hamster");
+            processAnimal(dir->d_name, "hamster");
         }
         if (strstr(dir->d_name, "iguana;"))
         {
 
-            renameAnimal(dir->d_name, "iguana");
+            processAnimal(dir->d_name, "iguana");
         }
         if (strstr(dir->d_name, "ilama;"))
         {
 
-            renameAnimal(dir->d_name, "ilama");
+            processAnimal(dir->d_name, "ilama");
         }
         if (strstr(dir->d_name, "otter;"))
         {
 
-            renameAnimal(dir->d_name, "otter");
+            processAnimal(dir->d_name, "otter");
         }
         if (strstr(dir->d_name, "parrot;"))
         {
 
-            renameAnimal(dir->d_name, "parrot");
+            processAnimal(dir->d_name, "parrot");
         }
         if (strstr(dir->d_name, "rabbit;"))
         {
 
-            renameAnimal(dir->d_name, "rabbit");
+            processAnimal(dir->d_name, "rabbit");
         }
         if (strstr(dir->d_name, "racoon;"))
         {
 
-            renameAnimal(dir->d_name, "racoon");
+            processAnimal(dir->d_name, "racoon");
         }
         if (strstr(dir->d_name, "sheep;"))
         {
 
-            renameAnimal(dir->d_name, "sheep");
+            processAnimal(dir->d_name, "sheep");
         }
         if (strstr(dir->d_name, "tiger;"))
         {
 
-            renameAnimal(dir->d_name, "tiger");
+            processAnimal(dir->d_name, "tiger");
         }
     }
 
@@ -137,34 +136,6 @@ void fork_f(char *comm, char *argv[])
     return;
 }
 
-char *str_toDir(char *ipt)
-{
-    // printf("%s\n", ipt);
-
-    int i = 0, tc = 0;
-    char tmp[strlen(ipt)];
-    while (1)
-    {
-
-        if (ipt[i] == ';')
-        {
-            tmp[tc] = '/';
-        }
-        else if (ipt[i] != ';')
-        {
-            tmp[tc] = ipt[i];
-        }
-        if (ipt[i] == '\0')
-        {
-            tmp[tc] = '\0';
-            break;
-        }
-        i++;
-        tc++;
-    }
-    return tmp;
-}
-
 char *animalName(char *str)
 {
     int size;
@@ -189,7 +160,7 @@ char *animalName(char *str)
     return a;
 }
 
-char *renameAnimal(char *str, char *folder)
+char *processAnimal(char *str, char *folder)
 {
     char *name = animalName(str);
     char *ptr;
