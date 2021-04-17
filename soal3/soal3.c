@@ -9,6 +9,8 @@
 #include <fcntl.h>
 #include <string.h>
 #include <limits.h>
+#include <syslog.h>
+#include <errno.h>
 
 void make();
 void placeholdir(time_t time);
@@ -22,24 +24,15 @@ void fork_(char *cmd, char *arg[])
 {
 	pid_t id;
 	int status;
-//	printf("\n===Test #1===\n");
 	id = fork();
-//	printf("\n===Test #2===\n");
 	if(id<0)
 	{
 		exit(EXIT_FAILURE);
-//		printf("booreal\n");
 	}
 	if(id==0)
 	{
-//		printf("fooreal\n");
 		execv(cmd,arg);
-//		printf("kalo ketulis aneh");
 	}
-//	else{
-//		while(wait(&status)>0){
-//		}
-//	}
 }
 
 
@@ -59,7 +52,7 @@ void caesar5(char* succ){
 
 
 void download (char *tang){
-	
+	printf("\nFOOBAR1\n");
 	time_t waktu;
 	time(&waktu);
 	char* date;
@@ -69,13 +62,8 @@ void download (char *tang){
 	asprintf(&pix,"https://picsum.photos/%li" ,waktu%1000+50);
 	asprintf(&date,"%d-%02d-%02d_%02d:%02d:%02d" , tim.tm_year +1900, tim.tm_mon +1, tim.tm_mday, tim.tm_hour, tim.tm_min, tim.tm_sec);
 	asprintf(&date2,"%s/%s.jpeg", tang,date);
-	char *arg[]={"wget","--no-check-certificate","-O",date2,pix,NULL};
-//	if(par == 0){
-		fork_("/usr/bin/wget",arg);
-//	}
-//	if(par == 1){
-//		_fork_("usr/bin/wget",arg);
-//	}
+	char *arg[]={"wget","--no-check-certificate","-O",date2,"-b","-q","-c",pix,NULL};
+	fork_("/usr/bin/wget",arg);
 }
 
 void placeholdir(time_t waktu){
@@ -86,10 +74,9 @@ void placeholdir(time_t waktu){
 	fork_("/bin/mkdir",arg);
 	int i;
 	for(i=0;i<10;i++){
-	sleep(2);
 	download(date);
+	sleep(5);
 	}
-	sleep(2);
 	text(date);
 	zipfolder(date);
 	sleep(5);
@@ -143,16 +130,66 @@ void removefolder(char *tang){
 	fork_("/bin/rm",arg);
 }
 
-int main(int argc, char *argv[])
+void killer(char *c,int pid,char* ch){
+	FILE *tex;
+	char* script;
+	tex = fopen("Killer.sh", "w");
+	if((c=='x') || (c =='X')){
+		asprintf(&script,"\#!/bin/bash\nkill -9 %d\nrm -- \"$0\"",pid);
+		fputs(script,tex);
+		fclose(tex);
+	}
+	if((c=='z') || (c =='Z')){
+		asprintf(&script,"\#!/bin/bash\nkillall -9 %s\nrm -- \"$0\"",ch);
+		fputs(script,tex);
+		fclose(tex);
+	}
+}
+
+
+
+int main(int argc,char* argv[])
 {
-	printf("helloworld\n");
-	make();
-	printf("make1\n");
-	sleep(1);
-	make();
-	printf("make2\n");
-
-
+	if(argc !=2){
+		printf("invalid # arg\n");
+		exit(0);
+	}
+	if(!((argv[1][1]=='x')||(argv[1][1]=='X')||(argv[1][1]=='z')||(argv[1][1]=='Z'))){
+		printf("\ninvalid arg = %c\n",argv[1][1]);
+		exit(0);
+	
+	}
+	char s[PATH_MAX];
+	getcwd(s,sizeof(s));
+	
+	pid_t pid,sid;
+	pid = fork();
+	
+	if(pid <0){
+		exit(EXIT_FAILURE);
+	}
+	if(pid > 0){
+		exit(EXIT_SUCCESS);
+	}
+	umask(0);
+	sid = setsid();
+	if(sid < 0){
+		exit(EXIT_FAILURE);
+	}
+	if((chdir(s))<0){
+		printf("\nbar\n");
+		exit(EXIT_FAILURE);
+	}
+	
+	killer(argv[1][1],(int)getpid(),argv[0]);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	while(1){
+		printf("foo");
+		make();
+		sleep(40);
+	}
 	return 0;
 }
 
