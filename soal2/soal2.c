@@ -13,6 +13,48 @@
 #include <stdlib.h>
 
 void fork_f(char *comm, char *argv[]);
+char *str_toDir(char *ipt);
+char *animalName(char *str);
+char *renameAnimal(char *str, char *folder)
+{
+    char *name = animalName(str);
+    char *ptr;
+    while (ptr = strtok_r(name, "_", &name))
+    {
+
+        char *ptr2;
+        int j = 0;
+
+        char jenis[20], name[20], umur[10];
+        char *temp = ptr;
+
+        while (ptr2 = strtok_r(temp, ";", &temp))
+        {
+            if (j == 0)
+            {
+                strcpy(jenis, ptr2);
+            }
+
+            if (j == 1)
+            {
+                strcpy(name, ptr2);
+            }
+
+            if (j == 2)
+            {
+                strcpy(umur, ptr2);
+            }
+
+            j++;
+        }
+
+        char *argv[] = {"mv", str, name, NULL};
+        fork_f("/usr/bin/mv", argv);
+
+        char *argv2[] = {"mv", name, folder, NULL};
+        fork_f("/usr/bin/mv", argv2);
+    }
+}
 
 int main()
 {
@@ -24,7 +66,7 @@ int main()
     char *argv2[] = {"rm", "-r", "apex_cheats", "musics", "unimportant_files", NULL};
     fork_f("/usr/bin/rm", argv2);
 
-    char *argv3[] = {"mkdir", "betta", "cat", "chicken", "dog", "frog", "guinea", "otter", "hamster", "iguana", "ilama", "parrot", "rabbit", "racoon", "sheep", "tiger", NULL};
+    char *argv3[] = {"mkdir", "betta", "cat", "chicken", "dog", "frog", "guinea pig", "otter", "hamster", "iguana", "ilama", "parrot", "rabbit", "racoon", "sheep", "tiger", NULL};
     fork_f("/usr/bin/mkdir", argv3);
 
     DIR *d;
@@ -35,87 +77,72 @@ int main()
     {
         if (strstr(dir->d_name, "betta;"))
         {
-            //algo here
-            /*
-               1. 
-            */
-
-            char *argv[] = {"mv", dir->d_name, "betta", NULL};
-            fork_f("/usr/bin/mv", argv);
-            //and text here
+            renameAnimal(dir->d_name, "betta");
         }
 
         if (strstr(dir->d_name, "cat;"))
         {
-
-            char *argv[] = {"mv", dir->d_name, "cat", NULL};
-
-            fork_f("/usr/bin/mv", argv);
+            renameAnimal(dir->d_name, "cat");
         }
         if (strstr(dir->d_name, "chicken;"))
         {
-            char *argv[] = {"mv", dir->d_name, "chicken", NULL};
-            fork_f("/usr/bin/mv", argv);
+            renameAnimal(dir->d_name, "chicken");
         }
         if (strstr(dir->d_name, "dog;"))
         {
-            char *argv[] = {"mv", dir->d_name, "dog", NULL};
-            fork_f("/usr/bin/mv", argv);
+            renameAnimal(dir->d_name, "dog");
         }
         if (strstr(dir->d_name, "frog;"))
         {
-            char *argv[] = {"mv", dir->d_name, "frog", NULL};
-            fork_f("/usr/bin/mv", argv);
+            renameAnimal(dir->d_name, "frog");
         }
         if (strstr(dir->d_name, "guinea pig;"))
         {
-            char *argv[] = {"mv", dir->d_name, "guinea", NULL};
-            fork_f("/usr/bin/mv", argv);
+            renameAnimal(dir->d_name, "guinea pig");
         }
         if (strstr(dir->d_name, "hamster;"))
         {
-            char *argv[] = {"mv", dir->d_name, "hamster", NULL};
-            fork_f("/usr/bin/mv", argv);
+            renameAnimal(dir->d_name, "hamster");
         }
         if (strstr(dir->d_name, "iguana;"))
         {
-            char *argv[] = {"mv", dir->d_name, "iguana", NULL};
-            fork_f("/usr/bin/mv", argv);
+
+            renameAnimal(dir->d_name, "iguana");
         }
         if (strstr(dir->d_name, "ilama;"))
         {
-            char *argv[] = {"mv", dir->d_name, "ilama", NULL};
-            fork_f("/usr/bin/mv", argv);
+
+            renameAnimal(dir->d_name, "ilama");
         }
         if (strstr(dir->d_name, "otter;"))
         {
-            char *argv[] = {"mv", dir->d_name, "otter", NULL};
-            fork_f("/usr/bin/mv", argv);
+
+            renameAnimal(dir->d_name, "otter");
         }
         if (strstr(dir->d_name, "parrot;"))
         {
-            char *argv[] = {"mv", dir->d_name, "parrot", NULL};
-            fork_f("/usr/bin/mv", argv);
+
+            renameAnimal(dir->d_name, "parrot");
         }
         if (strstr(dir->d_name, "rabbit;"))
         {
-            char *argv[] = {"mv", dir->d_name, "rabbit", NULL};
-            fork_f("/usr/bin/mv", argv);
+
+            renameAnimal(dir->d_name, "rabbit");
         }
         if (strstr(dir->d_name, "racoon;"))
         {
-            char *argv[] = {"mv", dir->d_name, "racoon", NULL};
-            fork_f("/usr/bin/mv", argv);
+
+            renameAnimal(dir->d_name, "racoon");
         }
         if (strstr(dir->d_name, "sheep;"))
         {
-            char *argv[] = {"mv", dir->d_name, "sheep", NULL};
-            fork_f("/usr/bin/mv", argv);
+
+            renameAnimal(dir->d_name, "sheep");
         }
         if (strstr(dir->d_name, "tiger;"))
         {
-            char *argv[] = {"mv", dir->d_name, "tiger", NULL};
-            fork_f("/usr/bin/mv", argv);
+
+            renameAnimal(dir->d_name, "tiger");
         }
     }
 
@@ -147,4 +174,56 @@ void fork_f(char *comm, char *argv[])
             ;
     }
     return;
+}
+
+char *str_toDir(char *ipt)
+{
+    // printf("%s\n", ipt);
+
+    int i = 0, tc = 0;
+    char tmp[strlen(ipt)];
+    while (1)
+    {
+
+        if (ipt[i] == ';')
+        {
+            tmp[tc] = '/';
+        }
+        else if (ipt[i] != ';')
+        {
+            tmp[tc] = ipt[i];
+        }
+        if (ipt[i] == '\0')
+        {
+            tmp[tc] = '\0';
+            break;
+        }
+        i++;
+        tc++;
+    }
+    return tmp;
+}
+
+char *animalName(char *str)
+{
+    int size;
+    char *a;
+
+    int i;
+    for (i = 0; str[i] != '\0'; i++)
+        ;
+
+    size = i - 3;
+
+    if (size < 1)
+        return NULL;
+
+    a = (char *)malloc(size * sizeof(char));
+
+    for (i = 0; i < size - 1; i++)
+    {
+        a[i] = str[i];
+    }
+    a[i] = '\0';
+    return a;
 }
