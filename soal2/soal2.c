@@ -193,6 +193,8 @@ char *processAnimal(char *str, char *folder)
             j++;
         }
 
+        strcat(name, ".jpg");
+
         char *argv[] = {"mv", str, name, NULL};
         fork_f("/usr/bin/mv", argv);
 
