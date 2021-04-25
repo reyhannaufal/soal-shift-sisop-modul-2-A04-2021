@@ -323,3 +323,20 @@ void download (char *tang){
 }
 ```
 string pix dan date2 masing masing adalah string alamat download file dan string hasil concate dari nama direktori yang dibuat dengan string penamaan file yang dijadikan direktori download file
+### 3c
+setelah looping download file selesai akan memanggil fungsi text yang akan membuat file text
+```sh
+void text(char* path){
+
+	FILE *tex;
+	char *namafile;
+	asprintf(&namafile,"%s/status.txt",path);
+	char* msg;
+	asprintf(&msg,"Download Success");
+	tex = fopen(namafile, "w");
+	caesar5(msg);
+	fputs(msg,tex);
+	fclose(tex);
+}
+
+```
