@@ -420,3 +420,18 @@ void killer(char *c,int pid,char* ch){
 ```
 Ketika arg -x digunakan, killer akan menggunakan script kill pid untuk kill process utama sehingga proses download, zip, dan delete tidak terhenti,
 Ketika arg -z digunakan, killer akan menggunakan script killall namaprogram untuk kill semua process yang di spawn onleh program.
+
+Referensi yang digunakan dalam pengerjaan soal
+https://www.alphr.com/echo-without-newline/
+https://man7.org/linux/man-pages/man3/asprintf.3.html
+https://stackoverflow.com/questions/1442116/how-to-get-the-date-and-time-values-in-a-c-program
+https://stackoverflow.com/questions/22124413/how-to-use-wget-command-using-exec-command-in-linux
+https://codeforwin.org/2018/01/c-program-create-file-write-contents.html
+https://stackoverflow.com/questions/16678487/wget-command-to-download-a-file-and-save-as-a-different-filename
+https://www.systutorials.com/in-linux-how-to-kill-a-process-and-all-its-child-processes/
+https://stackoverflow.com/questions/11074401/command-line-argument-to-run-a-c-program
+https://www.cyberciti.biz/tips/howto-run-wget-in-background.html
+https://www.tutorialspoint.com/cprogramming/c_command_line_arguments.htm
+https://stackoverflow.com/questions/8981164/self-deleting-shell-script
+
+
