@@ -376,4 +376,47 @@ void removefolder(char *tang){
 	fork_("/bin/rm",arg);
 }
 ```
-### 3d
+### 3d dan 3e
+Program tidak akan berjalan jika tidak menggunakan argumen yang sesuai (-x atau -z)
+```sh
+	if(argc !=2){
+		printf("invalid # arg\n");
+		exit(0);
+	}
+	if(!((argv[1][1]=='x')||(argv[1][1]=='X')||(argv[1][1]=='z')||(argv[1][1]=='Z'))){
+		printf("\ninvalid arg = %c\n",argv[1][1]);
+		exit(0);
+```
+
+Sebelum loop daemon dijalankan, program akan membuat killer
+```sh
+killer(argv[1][1],(int)getpid(),argv[0]);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	while(1){
+		printf("foo");
+		make();
+		sleep(40);
+	}
+```
+fungsi killer menggunakan parameter argv[1][1] yaitu argumen (x/z), pid, dan nama program
+```sh
+void killer(char *c,int pid,char* ch){
+	FILE *tex;
+	char* script;
+	tex = fopen("Killer.sh", "w");
+	if((c=='x') || (c =='X')){
+		asprintf(&script,"\#!/bin/bash\nkill -9 %d\nrm -- \"$0\"",pid);
+		fputs(script,tex);
+		fclose(tex);
+	}
+	if((c=='z') || (c =='Z')){
+		asprintf(&script,"\#!/bin/bash\nkillall -9 %s\nrm -- \"$0\"",ch);
+		fputs(script,tex);
+		fclose(tex);
+	}
+}
+```
+Ketika arg -x digunakan, killer akan menggunakan script kill pid untuk kill process utama sehingga proses download, zip, dan delete tidak terhenti,
+Ketika arg -z digunakan, killer akan menggunakan script killall namaprogram untuk kill semua process yang di spawn onleh program.
