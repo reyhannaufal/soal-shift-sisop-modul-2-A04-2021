@@ -340,3 +340,40 @@ void text(char* path){
 }
 
 ```
+Text akan berisi string "Download Success" yang sudah di cipher melalui fungsi caesar5
+```sh
+void caesar5(char* succ){
+	int i=0;
+	while (succ[i] != NULL){
+		if (((succ[i] >= 'a') && (succ[i]<= 'z'-5))||((succ[i] >= 'A')&&(succ[i]<= 'z'-5))){
+			succ[i] =succ[i] + 5;
+		}
+		else if (((succ[i] <= 'z') && (succ[i] > 'z'-5))||((succ[i] <= 'Z')&&(succ[i]> 'z'-5))){
+			succ[i] = succ[i] - 21;
+		}
+		i++;
+	}
+}
+```
+Kemudia akan direktori akan di zip dengan zipfolder
+```sh
+	zipfolder(date);
+	sleep(5);
+	removefolder(date);
+------------------------------
+void zipfolder(char *tang){
+	char* zipname;
+	asprintf(&zipname,"%s.zip",tang);
+	char* arg[] = {"zip","-r",zipname,tang,NULL};
+	fork_("/usr/bin/zip",arg);
+	
+}
+```
+Dan direktori akan di delete setelah delay 5 detik untuk menghindari file di delete sebelum proses zip selesai
+```sh
+void removefolder(char *tang){
+	char* arg[]={"rm","-rf",tang,NULL};
+	fork_("/bin/rm",arg);
+}
+```
+### 3d
