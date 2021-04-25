@@ -200,3 +200,53 @@ void delete_folder() {
 }
 ```
 Di dalam fungsi zip_folder berisi argv untuk menyimpan command zip dan nama file untuk menyimpan zip serta folder-folder yang akan dizip. Sedangkan, pada folder delete_folder disimpan fungsi command rm untuk menghapus semua folder yang ada. 
+
+## NO3
+
+### 1a
+```sh
+	while(1){
+		printf("foo");
+		make();
+		sleep(40);
+	}
+	return 0;
+```
+Selama program daemon berjalan akan terus memanggil fungsi make() dengan delay 40 second.
+```sh
+void make(){
+	time_t waktu;
+	time(&waktu);
+	pid_t id;
+	int status;
+	id =fork();
+	if (id<0){
+		exit(EXIT_FAILURE);
+	}
+	if (id==0){
+		placeholdir(waktu);
+		char* sk[]={"echo","-n",NULL};
+		execv("/bin/echo", sk);
+	}
+}
+```
+ Fungsi make() adalah fungsi yang me-fork fungsi yang akan membuat folder (disini dinamakan placeholdir(time_t t)dengan parameter waktu saat fungsi make() dipanggil
+ ```sh
+ void placeholdir(time_t waktu){
+	char* date;
+	struct tm tim = *localtime(&waktu);
+	asprintf(&date,"%d-%02d-%02d_%02d:%02d:%02d" , tim.tm_year +1900, tim.tm_mon +1, tim.tm_mday, tim.tm_hour, tim.tm_min, tim.tm_sec);
+	char *arg[]={"mkdir",date,NULL};
+	fork_("/bin/mkdir",arg);
+   int i;
+	for(i=0;i<10;i++){
+	download(date);
+	sleep(5);
+	}
+	text(date);
+	zipfolder(date);
+	sleep(5);
+	removefolder(date);
+}
+ ```
+ Di fungsi placeholdir waktu yang dipassing akan dirubah menjadi format nama fodler seperti permintaan soal kemudian melakukan execv dengan arg /bin/mkdir
