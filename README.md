@@ -201,6 +201,88 @@ void delete_folder() {
 ```
 Di dalam fungsi zip_folder berisi argv untuk menyimpan command zip dan nama file untuk menyimpan zip serta folder-folder yang akan dizip. Sedangkan, pada folder delete_folder disimpan fungsi command rm untuk menghapus semua folder yang ada. 
 
+## NO2
+Pengerjaan soal nomor 2 menggunakan fork dan exec.
+
+Note:
+* Tidak boleh menggunakan fungsi system(), mkdir(), dan rename().
+* Menggunakan fork dan exec
+
+A. Extract zip ke dalam folder “/home/[user]/modul2/petshop” dan hapus folder yang tidak dibutuhkan
+```sh
+ char *argv[] = {"unzip", "/home/ec2-user/soal-shift-sisop-modul-2-A04-		2021/soal2/pets.zip", "-d", "/home/ec2-user/modul2/petshop", NULL};
+    fork_f("/usr/bin/unzip", argv);
+```
+```sh
+    chdir("/home/ec2-user/modul2/petshop");
+    char *argv2[] = {"rm", "-r", "apex_cheats", "musics", "unimportant_files", NULL};
+    fork_f("/usr/bin/rm", argv2);
+```
+
+B. Membuatkan folder-folder yang dibutuhkan sesuai dengan isi zip.
+Contoh: Jenis peliharaan kucing akan disimpan dalam “/petshop/cat”, jenis peliharaan kura-kura akan disimpan dalam “/petshop/turtle”.
+
+```sh
+ char *argv3[] = {"mkdir", "betta", "cat", "chicken", "dog", "frog", "guinea pig", "otter", "hamster", "iguana", "ilama", "parrot", "rabbit", "racoon", "sheep", "tiger", NULL};
+    fork_f("/usr/bin/mkdir", argv3);
+```
+C. Setelah folder kategori berhasil dibuat, programmu akan memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan.
+Contoh: “/petshop/cat/joni.jpg”. 
+```sh
+ while (ptr2 = strtok_r(temp, ";", &temp))
+        {
+            if (j == 0)
+            {
+                strcpy(jenis, ptr2);
+            }
+
+            if (j == 1)
+            {
+                strcpy(name, ptr2);
+            }
+
+            if (j == 2)
+            {
+                strcpy(umur, ptr2);
+            }
+
+            j++;
+        }
+
+        strcat(name, ".jpg");
+
+        char *argv[] = {"mv", str, name, NULL};
+        fork_f("/usr/bin/mv", argv);
+
+        char *argv2[] = {"mv", name, folder, NULL};
+        fork_f("/usr/bin/mv", argv2);
+```
+D. Karena dalam satu foto bisa terdapat lebih dari satu peliharaan maka foto harus di pindah ke masing-masing kategori yang sesuai. Contoh: foto dengan nama “dog;baro;1_cat;joni;2.jpg” dipindah ke folder “/petshop/cat/joni.jpg” dan “/petshop/dog/baro.jpg”.
+```sh
+ strcat(name, ".jpg");
+
+        char *argv[] = {"mv", str, name, NULL};
+        fork_f("/usr/bin/mv", argv);
+
+        char *argv2[] = {"mv", name, folder, NULL};
+        fork_f("/usr/bin/mv", argv2);
+```
+E. Di setiap folder buatlah sebuah file "keterangan.txt" yang berisi nama dan umur semua peliharaan dalam folder tersebut. Format harus sesuai contoh.
+```sh
+FILE *fp;
+        fp = fopen("keterangan.txt", "w");
+        char keterangan[200] = "nama : ";
+        strcat(keterangan, name);
+        strcat(keterangan, "\numur  : ");
+        strcat(keterangan, umur);
+        strcat(keterangan, " tahun\n\n");
+        fputs(keterangan, fp);
+        fclose(fp);
+
+```
+
+
+
 ## NO3
 Pengerjaan soal nomor 3 menggunakan template untuk process menjadi daemon process dan fork
 ```sh
