@@ -281,6 +281,14 @@ FILE *fp;
 
 ```
 
+## Compile
+![image](https://user-images.githubusercontent.com/59334824/115994854-f675e900-a602-11eb-9ba0-38f3bbd3ba29.png)
+
+## Hasil
+![image](https://user-images.githubusercontent.com/59334824/115994871-0ab9e600-a603-11eb-9027-c9ece56dbf05.png)
+![image](https://user-images.githubusercontent.com/59334824/115994895-1c9b8900-a603-11eb-8cad-48d66e7f257a.png)
+
+
 
 
 ## NO3
