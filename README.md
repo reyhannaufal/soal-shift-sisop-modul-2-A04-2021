@@ -202,8 +202,54 @@ void delete_folder() {
 Di dalam fungsi zip_folder berisi argv untuk menyimpan command zip dan nama file untuk menyimpan zip serta folder-folder yang akan dizip. Sedangkan, pada folder delete_folder disimpan fungsi command rm untuk menghapus semua folder yang ada. 
 
 ## NO3
+Pengerjaan soal nomor 3 menggunakan template untuk process menjadi daemon process dan fork
+```sh
+	char s[PATH_MAX];
+	getcwd(s,sizeof(s));
+	
+	pid_t pid,sid;
+	pid = fork();
+	
+	if(pid <0){
+		exit(EXIT_FAILURE);
+	}
+	if(pid > 0){
+		exit(EXIT_SUCCESS);
+	}
+	umask(0);
+	sid = setsid();
+	if(sid < 0){
+		exit(EXIT_FAILURE);
+	}
+	if((chdir(s))<0){
+		printf("\nbar\n");
+		exit(EXIT_FAILURE);
+	}
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+```
+Yang berbeda dari modul adalah bagian chdir, dimana working directory dirubah menjadi directory dimana program dipanggil.
 
-### 1a
+```sh
+void fork_(char *cmd, char *arg[])
+{
+	pid_t id;
+	int status;
+	id = fork();
+	if(id<0)
+	{
+		exit(EXIT_FAILURE);
+	}
+	if(id==0)
+	{
+		execv(cmd,arg);
+	}
+}
+```
+Untuk fungso forrk_ dihilangkan bagian wait, untuk menghindari penamaan file/folder yang tidak sesuai dengan pola waktu
+
+### 3a
 ```sh
 	while(1){
 		printf("foo");
@@ -250,3 +296,29 @@ void make(){
 }
  ```
  Di fungsi placeholdir waktu yang dipassing akan dirubah menjadi format nama fodler seperti permintaan soal kemudian melakukan execv dengan arg /bin/mkdir
+
+### 3b
+Untuk mendownload file, di fungsi placeholdir dijalankan looping for dengan delay 5 detik  di setiap akhir loop
+```sh
+for(i=0;i<10;i++){
+	download(date);
+	sleep(5);
+	}
+```
+fungsi download menggunakan parameter date yang merupakan string nama direktori yang dibuat.
+```sh
+void download (char *tang){
+	printf("\nFOOBAR1\n");
+	time_t waktu;
+	time(&waktu);
+	char* date;
+	char* pix;
+	char* date2;
+	struct tm tim = *localtime(&waktu);
+	asprintf(&pix,"https://picsum.photos/%li" ,waktu%1000+50);
+	asprintf(&date,"%d-%02d-%02d_%02d:%02d:%02d" , tim.tm_year +1900, tim.tm_mon +1, tim.tm_mday, tim.tm_hour, tim.tm_min, tim.tm_sec);
+	asprintf(&date2,"%s/%s.jpeg", tang,date);
+	char *arg[]={"wget","--no-check-certificate","-O",date2,"-b","-q","-c",pix,NULL};
+	fork_("/usr/bin/wget",arg);
+}
+```
