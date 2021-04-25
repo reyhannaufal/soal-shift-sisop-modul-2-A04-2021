@@ -418,12 +418,14 @@ void killer(char *c,int pid,char* ch){
 	}
 }
 ```
-Ketika arg -x digunakan, killer akan menggunakan script kill pid untuk kill process utama sehingga proses download, zip, dan delete tidak terhenti,
+Ketika arg -x digunakan, killer akan menggunakan script kill pid untuk kill process utama sehingga proses download, zip, dan delete tidak terhenti.
+
 Ketika arg -z digunakan, killer akan menggunakan script killall namaprogram untuk kill semua process yang di spawn onleh program.
 
 ### Masalah yang ditemukan dalam pengerjaan
--Saat membuat daemon process, working directory diletakan do '/' sehingga program tidak berjalan dan menjadi zombie process.
--Program wget tidak berjalan karena pada execv menggunakan /bin/wget.
+Saat membuat daemon process, working directory diletakan do '/' sehingga program tidak berjalan dan menjadi zombie process.
+
+Program wget tidak berjalan karena pada execv menggunakan /bin/wget.
 
 
 ### Referensi yang digunakan dalam pengerjaan soal
