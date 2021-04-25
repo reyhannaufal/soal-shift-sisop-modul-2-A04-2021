@@ -295,7 +295,7 @@ void make(){
 	removefolder(date);
 }
  ```
- Di fungsi placeholdir waktu yang dipassing akan dirubah menjadi format nama fodler seperti permintaan soal kemudian melakukan execv dengan arg /bin/mkdir
+ Di fungsi placeholdir waktu yang dipassing akan dirubah menjadi format nama fodler seperti permintaan soal kemudian melakukan execv mkdir
 
 ### 3b
 Untuk mendownload file, di fungsi placeholdir dijalankan looping for dengan delay 5 detik  di setiap akhir loop
@@ -322,3 +322,4 @@ void download (char *tang){
 	fork_("/usr/bin/wget",arg);
 }
 ```
+string pix dan date2 masing masing adalah string alamat download file dan string hasil concate dari nama direktori yang dibuat dengan string penamaan file yang dijadikan direktori download file
